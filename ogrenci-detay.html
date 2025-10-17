@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<title>Öğrenci Ders & Ödevleri</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-card: rgba(20, 20, 20, 0.8);
+  --bg-glass: rgba(255, 255, 255, 0.08);
+  --bg-glass-hover: rgba(255, 255, 255, 0.12);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --accent-gradient: linear-gradient(135deg, #8b5cf6, #6366f1);
+  
+  --success: #10b981;
+  --success-hover: #059669;
+  --success-gradient: linear-gradient(135deg, #10b981, #059669);
+  
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --danger-gradient: linear-gradient(135deg, #ef4444, #dc2626);
+  
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+  --warning-gradient: linear-gradient(135deg, #f59e0b, #d97706);
+  
+  --info: #3b82f6;
+  --info-hover: #2563eb;
+  --info-gradient: linear-gradient(135deg, #3b82f6, #2563eb);
+  
+  --border: rgba(255, 255, 255, 0.1);
+  --border-light: rgba(255, 255, 255, 0.05);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.4);
+  --blur: blur(20px);
+  --border-radius: 16px;
+  --border-radius-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #111827 50%, #0f172a 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 25px 0;
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  border-radius: var(--border-radius-lg);
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.header-left h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  border-radius: var(--border-radius-lg);
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent-gradient);
+  opacity: 0.6;
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card h3 i {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Grid Layout */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  align-items: start;
+}
+
+/* Form */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  font-size: 16px;
+  backdrop-filter: var(--blur);
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+  background: var(--bg-glass-hover);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: var(--blur);
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent);
+}
+
+.btn-primary {
+  background: var(--accent-gradient);
+  border: none;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+}
+
+.btn-success {
+  background: var(--success-gradient);
+  border: none;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-danger {
+  background: var(--danger-gradient);
+  border: none;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
+.btn-warning {
+  background: var(--warning-gradient);
+  border: none;
+  color: #000;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+}
+
+.btn-info {
+  background: var(--info-gradient);
+  border: none;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-sm {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  backdrop-filter: var(--blur);
+  background: var(--bg-card);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+th {
+  background: var(--bg-glass);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--accent);
+}
+
+tr {
+  transition: all 0.2s ease;
+}
+
+tr:hover {
+  background: var(--bg-glass-hover);
+}
+
+/* Tamamlanan ödev satırları için stil */
+tr.odev-tamamlandi {
+  background: rgba(16, 185, 129, 0.15);
+  border-left: 3px solid var(--success);
+}
+
+tr.odev-tamamlandi:hover {
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.ozet-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.ozet-text:hover {
+  color: var(--accent);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Tablo sütun genişlikleri - GÜNCELLENDİ */
+#dersTablo th:nth-child(1),
+#dersTablo td:nth-child(1) {
+  width: 90px; /* Hafta */
+  text-align: center;
+}
+
+#dersTablo th:nth-child(2),
+#dersTablo td:nth-child(2) {
+  width: 110px; /* Tarih */
+  text-align: center;
+  white-space: nowrap;
+}
+
+#dersTablo th:nth-child(3),
+#dersTablo td:nth-child(3) {
+  width: calc(100% - 320px); /* Ders Notu - esnek */
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#dersTablo th:nth-child(4),
+#dersTablo td:nth-child(4) {
+  width: 120px; /* İşlemler */
+  text-align: center;
+}
+
+#odevTablo th:nth-child(1),
+#odevTablo td:nth-child(1) {
+  width: 110px; /* Tarih */
+  text-align: center;
+  white-space: nowrap;
+}
+
+#odevTablo th:nth-child(2),
+#odevTablo td:nth-child(2) {
+  width: calc(100% - 300px); /* Ödev Detayı - esnek */
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#odevTablo th:nth-child(3),
+#odevTablo td:nth-child(3) {
+  width: 180px; /* İşlemler */
+  text-align: center;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.stat-item {
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur);
+  border-radius: var(--border-radius);
+  padding: 18px 15px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background: var(--bg-glass-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 5px;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  background: var(--bg-glass);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 8px 0;
+  border: 1px solid var(--border);
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--success-gradient);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.3;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.empty-state h3 {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  padding: 25px;
+  border-radius: var(--border-radius-lg);
+  max-width: 500px;
+  width: 90%;
+  box-shadow: var(--shadow-hover);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.close {
+  color: var(--text-secondary);
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close:hover {
+  color: var(--text-primary);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+  
+  .grid-2-col {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-2-col {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 15px 10px;
+  }
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  header {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .header-left h1 {
+    font-size: 2rem;
+  }
+  
+  .card {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    padding: 12px 16px;
+    width: 100%;
+    margin: 4px 0;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  th, td {
+    padding: 10px 6px;
+    font-size: 14px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .stat-item {
+    padding: 15px 10px;
+  }
+  
+  .stat-value {
+    font-size: 1.8rem;
+  }
+  
+  /* Mobilde tablo sütun genişlikleri */
+  #dersTablo th:nth-child(1),
+  #dersTablo td:nth-child(1),
+  #dersTablo th:nth-child(2),
+  #dersTablo td:nth-child(2),
+  #odevTablo th:nth-child(1),
+  #odevTablo td:nth-child(1) {
+    width: auto;
+  }
+  
+  #dersTablo th:nth-child(3),
+  #dersTablo td:nth-child(3),
+  #odevTablo th:nth-child(2),
+  #odevTablo td:nth-child(2) {
+    width: auto;
+    min-width: 120px;
+  }
+  
+  #dersTablo th:nth-child(4),
+  #dersTablo td:nth-child(4),
+  #odevTablo th:nth-child(3),
+  #odevTablo td:nth-child(3) {
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-container {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  #dersTablo, #odevTablo {
+    display: block;
+  }
+  
+  #dersTablo thead, #odevTablo thead {
+    display: none;
+  }
+  
+  #dersTablo tbody tr, #odevTablo tbody tr {
+    display: block;
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  
+  #dersTablo td, #odevTablo td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    width: 100%;
+    white-space: normal;
+  }
+  
+  #dersTablo td:last-child, #odevTablo td:last-child {
+    border-bottom: none;
+    padding-top: 12px;
+  }
+  
+  #dersTablo td::before, #odevTablo td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+  
+  .ozet-text {
+    white-space: normal;
+    text-overflow: unset;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Ana Sayfaya Dön Butonu -->
+  <a href="index.html" class="btn btn-primary" style="margin-bottom: 20px; display: inline-flex; width: auto;">
+    <i class="fas fa-arrow-left"></i> Ana Sayfaya Dön
+  </a>
+
+  <!-- Öğrenci Bilgileri Header -->
+  <header>
+    <div class="header-left">
+      <h1 id="ogrenciBaslik">Öğrenci Ders & Ödevleri</h1>
+      <!-- Alt yazı kaldırıldı -->
+    </div>
+  </header>
+
+  <!-- İstatistikler -->
+  <div class="card">
+    <h3><i class="fas fa-chart-line"></i> İstatistikler</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value" id="toplamDers">0</div>
+        <div class="stat-label">Toplam Ders</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="toplamOdev">0</div>
+        <div class="stat-label">Toplam Ödev</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="tamamlananOdev">0</div>
+        <div class="stat-label">Tamamlanan</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="tamamlanmaOrani">0%</div>
+        <div class="stat-label">Tamamlanma Oranı</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="tamamlanmaBar" style="width: 0%"></div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="sonDersTarihi">-</div>
+        <div class="stat-label">Son Ders</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dersler ve Ödevler Yan Yana -->
+  <div class="grid-2-col">
+    
+    <!-- SOL TARAF: DERSLER -->
+    <div>
+      <!-- Ders Ekleme -->
+      <div class="card">
+        <h3><i class="fas fa-plus-circle"></i> Ders Ekle</h3>
+        <form id="dersForm">
+          <div class="input-group">
+            <label for="dersNotu">Ders Notu</label>
+            <textarea id="dersNotu" placeholder="Ders notunu yazın..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Ders Ekle
+          </button>
+        </form>
+      </div>
+
+      <!-- Ders Listesi -->
+      <div class="card">
+        <h3><i class="fas fa-book"></i> Ders Geçmişi</h3>
+        <div class="table-container">
+          <table id="dersTablo">
+            <thead>
+              <tr>
+                <th>Hafta</th>
+                <th>Tarih</th>
+                <th>Ders Notu</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Dersler buraya eklenecek -->
+            </tbody>
+          </table>
+        </div>
+        <div id="dersBos" class="empty-state" style="display: none;">
+          <i class="fas fa-book"></i>
+          <h3>Henüz ders notu bulunmuyor</h3>
+          <p>Yukarıdaki formu doldurarak ilk ders notunu ekleyin</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAĞ TARAF: ÖDEVLER -->
+    <div>
+      <!-- Ödev Ekleme -->
+      <div class="card">
+        <h3><i class="fas fa-plus-circle"></i> Ödev Ekle</h3>
+        <form id="odevForm">
+          <div class="input-group">
+            <label for="odevDetay">Ödev Detayı</label>
+            <textarea id="odevDetay" placeholder="Ödev detayını yazın..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Ödev Ekle
+          </button>
+        </form>
+      </div>
+
+      <!-- Ödev Listesi -->
+      <div class="card">
+        <h3><i class="fas fa-tasks"></i> Ödev Listesi</h3>
+        <div class="table-container">
+          <table id="odevTablo">
+            <thead>
+              <tr>
+                <th>Tarih</th>
+                <th>Ödev Detayı</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Ödevler buraya eklenecek -->
+            </tbody>
+          </table>
+        </div>
+        <div id="odevBos" class="empty-state" style="display: none;">
+          <i class="fas fa-tasks"></i>
+          <h3>Henüz ödev bulunmuyor</h3>
+          <p>Yukarıdaki formu doldurarak ilk ödevi ekleyin</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Detay Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="kapatModal()">&times;</span>
+    <h3>Detay</h3>
+    <pre id="modalText" style="white-space: pre-wrap; word-wrap: break-word; overflow-x: hidden; overflow-y: auto; max-height:60vh; line-height:1.5; margin-top:15px;"></pre>
+  </div>
+</div>
+
+<!-- Düzenleme Modal -->
+<div id="duzenleModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="kapatModal()">&times;</span>
+    <h3 id="duzenleBaslik">Düzenle</h3>
+    <div class="input-group">
+      <label id="duzenleLabel">İçerik</label>
+      <textarea id="duzenleIcerik" placeholder="İçeriği düzenleyin..."></textarea>
+    </div>
+    <div class="modal-buttons">
+      <button class="btn" onclick="kapatModal()">İptal</button>
+      <button class="btn btn-primary" onclick="onaylaDuzenle()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Silme Modal -->
+<div id="silModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="kapatModal()">&times;</span>
+    <h3>Silme Onayı</h3>
+    <p id="silModalMesaj">Bu öğeyi silmek istediğinizden emin misiniz?</p>
+    <div class="modal-buttons">
+      <button class="btn" onclick="kapatModal()">İptal</button>
+      <button class="btn btn-danger" onclick="onaylaSil()">Sil</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Global değişkenler
+let ogrenci = null;
+let seciliIndex = null;
+let ogrenciler = [];
+let silinecekId = null;
+let silinecekTur = null;
+let duzenleId = null;
+let duzenleTur = null;
+
+// Sayfa yüklendiğinde
+document.addEventListener('DOMContentLoaded', function() {
+  // Öğrenci bilgilerini al
+  ogrenciler = JSON.parse(localStorage.getItem("ogrenciler")) || [];
+  seciliIndex = localStorage.getItem("seciliOgrenci");
+  
+  // Güvenlik kontrolleri
+  if (seciliIndex === null || seciliIndex === undefined) {
+    alert("Öğrenci seçilmedi! Ana sayfaya yönlendiriliyorsunuz.");
+    window.location.href = "index.html";
+    return;
+  }
+  
+  seciliIndex = parseInt(seciliIndex);
+  
+  if (seciliIndex < 0 || seciliIndex >= ogrenciler.length || isNaN(seciliIndex)) {
+    alert("Geçersiz öğrenci! Ana sayfaya yönlendiriliyorsunuz.");
+    window.location.href = "index.html";
+    return;
+  }
+  
+  ogrenci = ogrenciler[seciliIndex];
+  
+  if (!ogrenci) {
+    alert("Öğrenci bilgileri bulunamadı! Ana sayfaya yönlendiriliyorsunuz.");
+    window.location.href = "index.html";
+    return;
+  }
+  
+  // Öğrenci bilgilerini göster (sadece isim soyisim)
+  document.getElementById("ogrenciBaslik").textContent = `${ogrenci.isim} ${ogrenci.soyisim}`;
+  
+  // Ders ve ödev verilerini yükle
+  if (!ogrenci.dersler) ogrenci.dersler = [];
+  if (!ogrenci.bildirimler) ogrenci.bildirimler = [];
+  
+  // Form event listener'ları
+  document.getElementById("dersForm").addEventListener("submit", dersEkle);
+  document.getElementById("odevForm").addEventListener("submit", odevEkle);
+  
+  // Listeleri yükle
+  dersleriYukle();
+  odevleriYukle();
+  istatistikleriGuncelle();
+});
+
+// Ders ekleme
+function dersEkle(e) {
+  e.preventDefault();
+  
+  const dersNotu = document.getElementById("dersNotu").value.trim();
+  if (!dersNotu) return;
+  
+  const tarih = new Date().toLocaleDateString("tr-TR");
+  const hafta = ogrenci.dersler.length + 1;
+  
+  const yeniDers = {
+    id: Date.now(),
+    hafta: hafta,
+    tarih: tarih,
+    notu: dersNotu
+  };
+  
+  ogrenci.dersler.push(yeniDers);
+  localStorage.setItem("ogrenciler", JSON.stringify(ogrenciler));
+  
+  document.getElementById("dersForm").reset();
+  dersleriYukle();
+  istatistikleriGuncelle();
+}
+
+// Ödev ekleme
+function odevEkle(e) {
+  e.preventDefault();
+  
+  const odevDetay = document.getElementById("odevDetay").value.trim();
+  if (!odevDetay) return;
+  
+  const tarih = new Date().toLocaleDateString("tr-TR");
+  
+  const yeniOdev = {
+    id: Date.now(),
+    tur: "ödev",
+    icerik: odevDetay,
+    tarih: tarih,
+    yapildi: false
+  };
+  
+  ogrenci.bildirimler.push(yeniOdev);
+  localStorage.setItem("ogrenciler", JSON.stringify(ogrenciler));
+  
+  document.getElementById("odevForm").reset();
+  odevleriYukle();
+  istatistikleriGuncelle();
+}
+
+// Dersleri yükle
+function dersleriYukle() {
+  const tbody = document.querySelector("#dersTablo tbody");
+  const bosDiv = document.getElementById("dersBos");
+  
+  tbody.innerHTML = "";
+  
+  if (ogrenci.dersler.length === 0) {
+    bosDiv.style.display = "block";
+    return;
+  }
+  
+  bosDiv.style.display = "none";
+  
+  // Dersleri ters sırada göster (en yeni üstte)
+  const tersSirali = [...ogrenci.dersler].reverse();
+  
+  tersSirali.forEach((ders, index) => {
+    const tr = document.createElement("tr");
+    const orjinalIndex = ogrenci.dersler.length - 1 - index;
+    
+    const notText = ders.notu.length > 50 
+      ? `<span class="ozet-text" onclick="detayGoster('${ders.notu.replace(/'/g, "\\'")}')">${ders.notu.substring(0, 50)}...</span>` 
+      : `<span class="ozet-text" onclick="detayGoster('${ders.notu.replace(/'/g, "\\'")}')">${ders.notu}</span>`;
+    
+    tr.innerHTML = `
+      <td data-label="Hafta">${ders.hafta}. Hafta</td>
+      <td data-label="Tarih">${ders.tarih}</td>
+      <td data-label="Ders Notu">${notText}</td>
+      <td data-label="İşlemler">
+        <div class="action-buttons">
+          <button class="btn btn-sm btn-warning" onclick="dersDuzenle(${orjinalIndex})">
+            <i class="fas fa-edit"></i> Düzenle
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="dersSil(${orjinalIndex})">
+            <i class="fas fa-trash"></i> Sil
+          </button>
+        </div>
+      </td>
+    `;
+    
+    tbody.appendChild(tr);
+  });
+}
+
+// Ödevleri yükle
+function odevleriYukle() {
+  const tbody = document.querySelector("#odevTablo tbody");
+  const bosDiv = document.getElementById("odevBos");
+  
+  tbody.innerHTML = "";
+  
+  if (ogrenci.bildirimler.length === 0) {
+    bosDiv.style.display = "block";
+    return;
+  }
+  
+  bosDiv.style.display = "none";
+  
+  // Ödevleri ters sırada göster (en yeni üstte)
+  const tersSirali = [...ogrenci.bildirimler].reverse();
+  
+  tersSirali.forEach((odev, index) => {
+    const tr = document.createElement("tr");
+    const orjinalIndex = ogrenci.bildirimler.length - 1 - index;
+    
+    // Tamamlanan ödevler için CSS sınıfı ekle
+    if (odev.yapildi) {
+      tr.classList.add("odev-tamamlandi");
+    }
+    
+    const detayText = odev.icerik.length > 50 
+      ? `<span class="ozet-text" onclick="detayGoster('${odev.icerik.replace(/'/g, "\\'")}')">${odev.icerik.substring(0, 50)}...</span>` 
+      : `<span class="ozet-text" onclick="detayGoster('${odev.icerik.replace(/'/g, "\\'")}')">${odev.icerik}</span>`;
+    
+    tr.innerHTML = `
+      <td data-label="Tarih">${odev.tarih}</td>
+      <td data-label="Ödev Detayı">${detayText}</td>
+      <td data-label="İşlemler">
+        <div class="action-buttons">
+          <button class="btn btn-sm btn-warning" onclick="odevDuzenle(${orjinalIndex})">
+            <i class="fas fa-edit"></i> Düzenle
+          </button>
+          <button class="btn btn-sm btn-success" onclick="odevDurumDegistir(${orjinalIndex})">
+            <i class="fas fa-${odev.yapildi ? 'undo' : 'check'}"></i> ${odev.yapildi ? 'Geri Al' : 'Tamamla'}
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="odevSil(${orjinalIndex})">
+            <i class="fas fa-trash"></i> Sil
+          </button>
+        </div>
+      </td>
+    `;
+    
+    tbody.appendChild(tr);
+  });
+}
+
+// İstatistikleri güncelle
+function istatistikleriGuncelle() {
+  // Toplam ders
+  document.getElementById("toplamDers").textContent = ogrenci.dersler.length;
+  
+  // Toplam ödev
+  const toplamOdev = ogrenci.bildirimler.length;
+  document.getElementById("toplamOdev").textContent = toplamOdev;
+  
+  // Tamamlanan ödev
+  const tamamlananOdev = ogrenci.bildirimler.filter(o => o.yapildi).length;
+  document.getElementById("tamamlananOdev").textContent = tamamlananOdev;
+  
+  // Tamamlanma oranı
+  const tamamlanmaOrani = toplamOdev > 0 ? Math.round((tamamlananOdev / toplamOdev) * 100) : 0;
+  document.getElementById("tamamlanmaOrani").textContent = `${tamamlanmaOrani}%`;
+  document.getElementById("tamamlanmaBar").style.width = `${tamamlanmaOrani}%`;
+  
+  // Son ders tarihi
+  const sonDers = ogrenci.dersler[ogrenci.dersler.length - 1];
+  document.getElementById("sonDersTarihi").textContent = sonDers ? sonDers.tarih : "-";
+}
+
+// Detay gösterme
+function detayGoster(metin) {
+  document.getElementById("modalText").textContent = metin;
+  document.getElementById("modal").classList.add("show");
+}
+
+// Modal kapatma
+function kapatModal() {
+  document.getElementById("modal").classList.remove("show");
+  document.getElementById("duzenleModal").classList.remove("show");
+  document.getElementById("silModal").classList.remove("show");
+}
+
+// Ders düzenleme
+function dersDuzenle(index) {
+  const ders = ogrenci.dersler[index];
+  document.getElementById("duzenleBaslik").textContent = "Ders Notunu Düzenle";
+  document.getElementById("duzenleLabel").textContent = "Ders Notu";
+  document.getElementById("duzenleIcerik").value = ders.notu;
+  duzenleId = index;
+  duzenleTur = "ders";
+  document.getElementById("duzenleModal").classList.add("show");
+}
+
+// Ödev düzenleme
+function odevDuzenle(index) {
+  const odev = ogrenci.bildirimler[index];
+  document.getElementById("duzenleBaslik").textContent = "Ödev Detayını Düzenle";
+  document.getElementById("duzenleLabel").textContent = "Ödev Detayı";
+  document.getElementById("duzenleIcerik").value = odev.icerik;
+  duzenleId = index;
+  duzenleTur = "odev";
+  document.getElementById("duzenleModal").classList.add("show");
+}
+
+// Düzenlemeyi onaylama
+function onaylaDuzenle() {
+  const yeniIcerik = document.getElementById("duzenleIcerik").value.trim();
+  
+  if (!yeniIcerik) {
+    alert("İçerik boş olamaz!");
+    return;
+  }
+  
+  if (duzenleTur === "ders") {
+    ogrenci.dersler[duzenleId].notu = yeniIcerik;
+  } else if (duzenleTur === "odev") {
+    ogrenci.bildirimler[duzenleId].icerik = yeniIcerik;
+  }
+  
+  localStorage.setItem("ogrenciler", JSON.stringify(ogrenciler));
+  kapatModal();
+  
+  if (duzenleTur === "ders") {
+    dersleriYukle();
+  } else {
+    odevleriYukle();
+  }
+}
+
+// Ders silme
+function dersSil(index) {
+  const ders = ogrenci.dersler[index];
+  document.getElementById("silModalMesaj").textContent = `"${ders.notu.substring(0, 30)}..." ders notunu silmek istediğinizden emin misiniz?`;
+  silinecekId = index;
+  silinecekTur = "ders";
+  document.getElementById("silModal").classList.add("show");
+}
+
+// Ödev silme
+function odevSil(index) {
+  const odev = ogrenci.bildirimler[index];
+  document.getElementById("silModalMesaj").textContent = `"${odev.icerik.substring(0, 30)}..." ödevini silmek istediğinizden emin misiniz?`;
+  silinecekId = index;
+  silinecekTur = "odev";
+  document.getElementById("silModal").classList.add("show");
+}
+
+// Silmeyi onaylama
+function onaylaSil() {
+  if (silinecekTur === "ders") {
+    ogrenci.dersler.splice(silinecekId, 1);
+    dersleriYukle();
+  } else if (silinecekTur === "odev") {
+    ogrenci.bildirimler.splice(silinecekId, 1);
+    odevleriYukle();
+  }
+  
+  localStorage.setItem("ogrenciler", JSON.stringify(ogrenciler));
+  kapatModal();
+  istatistikleriGuncelle();
+}
+
+// Ödev durumu değiştirme (tamamla/geri al)
+function odevDurumDegistir(index) {
+  ogrenci.bildirimler[index].yapildi = !ogrenci.bildirimler[index].yapildi;
+  localStorage.setItem("ogrenciler", JSON.stringify(ogrenciler));
+  odevleriYukle();
+  istatistikleriGuncelle();
+}
+</script>
+</body>
+</html>
