@@ -660,13 +660,13 @@ tr:hover {
   box-shadow: var(--shadow-hover);
   backdrop-filter: var(--blur);
   z-index: 1000;
-  display: none;
+  display: none; /* Başlangıçta gizli */
   max-height: 400px;
   overflow-y: auto;
 }
 
 .bildirim-liste.acik {
-  display: block;
+  display: block; /* Açık olduğunda göster */
 }
 
 .bildirim-item {
@@ -1648,27 +1648,27 @@ let silIndex = -1;
 let dersProgrami = JSON.parse(localStorage.getItem("dersProgrami")) || {};
 let onayCallback = null;
 
-// Bildirim Paneli Fonksiyonları
+// === BILDIRIM PANELI FONKSIYONLARI ===
 function toggleBildirimler() {
   const liste = document.getElementById('bildirimListe');
-  liste.classList.toggle('acik');
+  const simdiGorunuyor = liste.style.display === 'block';
   
-  // Bildirimler açıldığında güncel bilgileri yükle
-  if (liste.classList.contains('acik')) {
+  if (simdiGorunuyor) {
+    liste.style.display = 'none';
+    liste.classList.remove('acik');
+  } else {
+    liste.style.display = 'block';
+    liste.classList.add('acik');
+    // Bildirimler açıldığında güncel bilgileri yükle
     hesaplaBildirimler();
   }
 }
 
 function kapatBildirim(element) {
   const bildirim = element.closest('.bildirim-item');
-  bildirim.style.opacity = '0';
-  bildirim.style.transform = 'translateX(100%)';
-  
-  setTimeout(() => {
-    bildirim.style.display = 'none';
-    // Bildirim sayacını güncelle
-    guncelleBildirimSayaci();
-  }, 300);
+  bildirim.style.display = 'none';
+  // Bildirim sayacını güncelle
+  guncelleBildirimSayaci();
 }
 
 function guncelleBildirimSayaci() {
@@ -1806,7 +1806,8 @@ document.addEventListener('click', function(e) {
   const bildirimPanel = document.querySelector('.bildirim-panel');
   const bildirimListe = document.getElementById('bildirimListe');
   
-  if (!bildirimPanel.contains(e.target) && bildirimListe.classList.contains('acik')) {
+  if (!bildirimPanel.contains(e.target)) {
+    bildirimListe.style.display = 'none';
     bildirimListe.classList.remove('acik');
   }
 });
@@ -2017,11 +2018,8 @@ function ogrenciListele() {
             <button class="btn btn-sm btn-primary" onclick="ogrenciDuzenle(${orijinalIndex})">
               <i class="fas fa-edit"></i> Düzenle
             </button>
-            <button class="btn btn-sm btn-info" onclick="ogrenciDersleri(${ogrenci.id})">
-              <i class="fas fa-book"></i> Dersler
-            </button>
-            <button class="btn btn-sm btn-warning" onclick="ogrenciOdevleri(${ogrenci.id})">
-              <i class="fas fa-tasks"></i> Ödevler
+            <button class="btn btn-sm btn-info" onclick="ogrenciDetay(${ogrenci.id})">
+              <i class="fas fa-book"></i> Ders & Ödevler
             </button>
             <button class="btn btn-sm btn-danger" onclick="ogrenciSil(${orijinalIndex})">
               <i class="fas fa-trash"></i> Sil
@@ -2031,12 +2029,9 @@ function ogrenciListele() {
       </tr>
     `;
   }).join("");
-  
-  // Mobil tablo için data-label'leri güncelle
-  mobilTablolariDuzenle();
 }
-
-// Mobil tablo düzenleme
+  
+ 
 function mobilTablolariDuzenle() {
   if (window.innerWidth <= 768) {
     const tablo = document.getElementById('ogrenciTablo');
@@ -2053,28 +2048,16 @@ function mobilTablolariDuzenle() {
   }
 }
 
-// Öğrenci Dersleri fonksiyonu
-function ogrenciDersleri(ogrenciId) {
+
+function ogrenciDetay(ogrenciId) {
   const ogrenciIndex = ogrenciler.findIndex(o => o.id === ogrenciId);
   if (ogrenciIndex !== -1) {
     localStorage.setItem("seciliOgrenci", ogrenciIndex);
-    window.location.href = "dersler.html";
+    window.location.href = "ogrenci-detay.html";
   } else {
     showNotification("Öğrenci bulunamadı!", true);
   }
 }
-
-// Öğrenci Ödevleri fonksiyonu
-function ogrenciOdevleri(ogrenciId) {
-  const ogrenciIndex = ogrenciler.findIndex(o => o.id === ogrenciId);
-  if (ogrenciIndex !== -1) {
-    localStorage.setItem("seciliOgrenci", ogrenciIndex);
-    window.location.href = "bildirimler.html";
-  } else {
-    showNotification("Öğrenci bulunamadı!", true);
-  }
-}
-
 // Yaş hesaplama
 function hesaplaYas(dogumTarihi) {
   const [gun, ay, yil] = dogumTarihi.split('/').map(Number);
