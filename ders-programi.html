@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Ders Programı</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* CSS kodu aynı kalacak, değişiklik yapmıyorum */
+:root {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-card: rgba(30, 30, 30, 0.7);
+  --bg-glass: rgba(255, 255, 255, 0.1);
+  --bg-glass-hover: rgba(255, 255, 255, 0.15);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --accent: #7b61ff;
+  --accent-hover: #6d50f0;
+  --danger: #ff4757;
+  --danger-hover: #ff3742;
+  --warning: #ffa502;
+  --warning-hover: #ff9500;
+  --success: #2ed573;
+  --success-hover: #25c768;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --blur: blur(10px);
+}
+
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1a2e 50%, #16213e 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-left h1 {
+  color: var(--text-primary);
+  font-weight: 300;
+  font-size: 2.5rem;
+  margin: 0;
+  background: linear-gradient(45deg, var(--accent), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 5px 0 0 0;
+}
+
+/* Card Styles */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+/* Kontrol Paneli */
+.kontrol-paneli {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* SELECT ve INPUT STILLERİ - DÜZELTİLDİ */
+select, input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 14px;
+  backdrop-filter: var(--blur);
+}
+
+select option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 10px;
+}
+
+select:focus, input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.2);
+}
+
+/* Özel select stilleri */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+  padding-right: 40px;
+}
+
+/* Button Styles */
+.btn {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: var(--blur);
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, var(--accent), var(--accent-hover));
+  border: none;
+}
+
+.btn-danger {
+  background: linear-gradient(45deg, var(--danger), var(--danger-hover));
+  border: none;
+}
+
+.btn-success {
+  background: linear-gradient(45deg, var(--success), var(--success-hover));
+  border: none;
+}
+
+.btn-warning {
+  background: linear-gradient(45deg, var(--warning), var(--warning-hover));
+  border: none;
+  color: #000;
+}
+
+/* Ders Programı Grid */
+.ders-programi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.gun-karti {
+  background: var(--bg-glass);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  min-height: 400px;
+}
+
+.gun-baslik {
+  text-align: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.ders-listesi {
+  min-height: 300px;
+}
+
+.ders-item {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-left: 4px solid var(--accent);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ders-item:hover {
+  transform: translateX(5px);
+  background: var(--bg-glass-hover);
+}
+
+.ders-item.mola {
+  border-left-color: var(--warning);
+  background: rgba(255, 165, 2, 0.1);
+}
+
+.ders-item.cakisma {
+  border-left-color: var(--danger);
+  background: rgba(255, 71, 87, 0.1);
+}
+
+.ders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ders-saat {
+  font-weight: bold;
+  color: var(--success);
+  font-size: 0.9rem;
+}
+
+.ders-sure {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--bg-glass);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.ders-ogrenci {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.ders-detay {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.ders-uyari {
+  font-size: 0.8rem;
+  color: var(--danger);
+  background: rgba(255, 71, 87, 0.2);
+  padding: 5px 8px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.ders-bos {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Saat Girişi */
+.saat-girisi {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.saat-onizleme {
+  background: var(--bg-glass);
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+}
+
+.saat-onizleme .bitis {
+  color: var(--success);
+  font-weight: bold;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+.close {
+  color: var(--text-secondary);
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: var(--text-primary);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Zaman Kontrolü */
+.zaman-kontrolu {
+  background: var(--bg-glass);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.zaman-mesaji.aktif {
+  color: var(--success);
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .kontrol-paneli {
+    grid-template-columns: 1fr;
+  }
+  
+  .ders-programi-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .saat-girisi {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+  }
+}
+
+/* Öğrenci Listesi */
+.ogrenci-bilgi {
+  background: var(--bg-glass);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+
+.ogrenci-bilgi .calgi {
+  color: var(--accent);
+}
+
+.ogrenci-bilgi .sure {
+  color: var(--success);
+}
+
+/* Uyarı mesajları */
+.uyari-mesaji {
+  background: rgba(255, 165, 2, 0.2);
+  border: 1px solid var(--warning);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: var(--warning);
+}
+
+/* Ders çakışma uyarısı */
+.cakisma-uyari {
+  background: rgba(255, 71, 87, 0.2);
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: var(--danger);
+}
+
+/* Başarı mesajı */
+.basari-mesaji {
+  background: rgba(46, 213, 115, 0.2);
+  border: 1px solid var(--success);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: var(--success);
+}
+
+/* Mola seçenekleri */
+.mola-secenekleri {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mola-btn {
+  padding: 10px;
+  font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-left">
+      <h1>Ders Programı</h1>
+      <p class="subtitle">Haftalık ders planınızı oluşturun ve yönetin</p>
+    </div>
+    <a href="index.html" class="btn btn-primary" style="position: absolute; top: 30px; right: 30px;">
+      <i class="fas fa-arrow-left"></i> Öğrenci Listesi
+    </a>
+  </header>
+
+  <!-- Kontrol Paneli -->
+  <div class="card">
+    <div class="kontrol-paneli">
+      <div class="input-group">
+        <label for="gunSec"><i class="fas fa-calendar-day"></i> Gün Seçin</label>
+        <select id="gunSec">
+          <option value="Pazartesi">Pazartesi</option>
+          <option value="Salı">Salı</option>
+          <option value="Çarşamba">Çarşamba</option>
+          <option value="Perşembe">Perşembe</option>
+          <option value="Cuma">Cuma</option>
+          <option value="Cumartesi">Cumartesi</option>
+          <option value="Pazar">Pazar</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label for="ogrenciSec"><i class="fas fa-user-graduate"></i> Öğrenci Seçin</label>
+        <select id="ogrenciSec">
+          <option value="">Öğrenci seçin...</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label for="baslangicSaati"><i class="fas fa-clock"></i> Başlangıç Saati</label>
+        <input type="time" id="baslangicSaati" step="300">
+      </div>
+    </div>
+
+    <!-- Seçilen Öğrenci Bilgisi -->
+    <div id="ogrenciBilgi" class="ogrenci-bilgi" style="display: none;">
+      <span class="calgi"></span> • <span class="sure"></span> dakika
+    </div>
+
+    <!-- Uyarı Mesajı -->
+    <div id="ogrenciUyari" class="uyari-mesaji" style="display: none;">
+      <i class="fas fa-exclamation-circle"></i> Bu öğrenci zaten bu hafta ders olarak eklenmiş!
+    </div>
+    
+    <!-- Başarı Mesajı -->
+    <div id="basariMesaji" class="basari-mesaji" style="display: none;">
+      <i class="fas fa-check-circle"></i> Ders başarıyla eklendi!
+    </div>
+
+    <!-- Çakışma Uyarısı -->
+    <div id="cakismaUyari" class="cakisma-uyari" style="display: none;">
+      <i class="fas fa-exclamation-triangle"></i> Bu saatte başka ders/molayla çakışıyor!
+    </div>
+
+    <!-- Saat Önizleme -->
+    <div class="saat-girisi">
+      <div class="saat-onizleme">
+        Ders: <strong id="baslangicGoster">--:--</strong> - 
+        Bitiş: <strong class="bitis" id="bitisGoster">--:--</strong>
+        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">
+          Toplam: <span id="toplamSure">0</span> dakika
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="dersEkle()">
+        <i class="fas fa-plus"></i> Ders Ekle
+      </button>
+    </div>
+    
+    <!-- Mola Seçenekleri -->
+    <div class="mola-secenekleri">
+      <button class="btn btn-warning mola-btn" onclick="molaEkle(30)">
+        <i class="fas fa-coffee"></i> 30 dk Mola
+      </button>
+      <button class="btn btn-warning mola-btn" onclick="molaEkle(45)">
+        <i class="fas fa-coffee"></i> 45 dk Mola
+      </button>
+      <button class="btn btn-warning mola-btn" onclick="molaEkle(60)">
+        <i class="fas fa-coffee"></i> 1 saat Mola
+      </button>
+    </div>
+  </div>
+
+  <!-- Ders Programı -->
+  <div class="card">
+    <h3 style="margin-top: 0; color: var(--accent);">
+      <i class="fas fa-calendar-week"></i> Haftalık Ders Programı
+    </h3>
+    
+    <div class="ders-programi-grid" id="dersProgramiGrid">
+      <!-- Gün kartları JavaScript ile eklenecek -->
+    </div>
+  </div>
+</div>
+
+<!-- Ders Düzenleme Modal -->
+<div id="dersModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="modalKapat()">&times;</span>
+    <h3><i class="fas fa-edit"></i> Ders Düzenle</h3>
+    
+    <div class="input-group">
+      <label for="modalGun">Gün</label>
+      <select id="modalGun">
+        <option value="Pazartesi">Pazartesi</option>
+        <option value="Salı">Salı</option>
+        <option value="Çarşamba">Çarşamba</option>
+        <option value="Perşembe">Perşembe</option>
+        <option value="Cuma">Cuma</option>
+        <option value="Cumartesi">Cumartesi</option>
+        <option value="Pazar">Pazar</option>
+      </select>
+    </div>
+    
+    <div class="input-group">
+      <label for="modalOgrenci">Öğrenci</label>
+      <select id="modalOgrenci">
+        <option value="">Öğrenci seçin...</option>
+      </select>
+    </div>
+    
+    <div class="input-group">
+      <label for="modalBaslangic">Başlangıç Saati</label>
+      <input type="time" id="modalBaslangic" step="300">
+    </div>
+    
+    <div class="saat-onizleme" style="margin: 10px 0;">
+      Yeni Bitiş: <strong class="bitis" id="modalBitis">--:--</strong>
+    </div>
+    
+    <div id="modalUyari" class="ders-uyari" style="display: none;"></div>
+    
+    <div class="modal-buttons">
+      <button class="btn btn-danger" onclick="dersSil()">
+        <i class="fas fa-trash"></i> Sil
+      </button>
+      <button class="btn" onclick="modalKapat()">İptal</button>
+      <button class="btn btn-primary" onclick="dersGuncelle()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let dersProgrami = JSON.parse(localStorage.getItem("dersProgrami")) || {};
+let ogrenciler = JSON.parse(localStorage.getItem("ogrenciler")) || [];
+let seciliGun = "Pazartesi";
+let duzenlenenDers = null;
+
+// Öğrenci listesini doldur
+function ogrenciListesiniDoldur() {
+  const ogrenciSec = document.getElementById("ogrenciSec");
+  const modalOgrenci = document.getElementById("modalOgrenci");
+  
+  ogrenciSec.innerHTML = '<option value="">Öğrenci seçin...</option>';
+  modalOgrenci.innerHTML = '<option value="">Öğrenci seçin...</option>';
+  
+  ogrenciler.forEach(ogr => {
+    const option = document.createElement("option");
+    option.value = ogr.id;
+    option.textContent = `${ogr.isim} ${ogr.soyisim} - ${ogr.calgi}`;
+    option.setAttribute('data-sure', ogr.dersSuresi);
+    
+    ogrenciSec.appendChild(option.cloneNode(true));
+    modalOgrenci.appendChild(option);
+  });
+}
+
+// Öğrenci seçildiğinde bilgileri göster ve kontrol et
+function ogrenciSecildi() {
+  const ogrenciId = document.getElementById("ogrenciSec").value;
+  const ogrenciBilgi = document.getElementById("ogrenciBilgi");
+  const uyari = document.getElementById("ogrenciUyari");
+  
+  // Başarı ve çakışma mesajlarını gizle
+  document.getElementById("basariMesaji").style.display = "none";
+  document.getElementById("cakismaUyari").style.display = "none";
+  
+  if (ogrenciId) {
+    const ogrenci = ogrenciler.find(o => o.id == ogrenciId);
+    if (ogrenci) {
+      ogrenciBilgi.querySelector('.calgi').textContent = ogrenci.calgi;
+      ogrenciBilgi.querySelector('.sure').textContent = ogrenci.dersSuresi;
+      ogrenciBilgi.style.display = 'block';
+      saatHesapla();
+      
+      // Öğrenci kontrolü - her öğrenciyi sadece bir kez ekleyebilir
+      if (ogrenciHaftadaVar(ogrenciId)) {
+        uyari.style.display = 'block';
+      } else {
+        uyari.style.display = 'none';
+      }
+    }
+  } else {
+    ogrenciBilgi.style.display = 'none';
+    uyari.style.display = 'none';
+  }
+}
+
+// Aynı öğrenci haftada zaten ekli mi kontrol et
+function ogrenciHaftadaVar(ogrenciId) {
+  const gunler = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+  
+  for (const gun of gunler) {
+    if (dersProgrami[gun]) {
+      const varMi = dersProgrami[gun].some(ders => 
+        ders.tur === 'ders' && ders.ogrenciId == ogrenciId
+      );
+      if (varMi) return true;
+    }
+  }
+  
+  return false;
+}
+
+// Saat değişikliğinde bitişi hesapla
+function saatHesapla() {
+  const baslangicSaati = document.getElementById("baslangicSaati").value;
+  const ogrenciId = document.getElementById("ogrenciSec").value;
+  
+  // Çakışma uyarısını gizle
+  document.getElementById("cakismaUyari").style.display = "none";
+  
+  if (baslangicSaati && ogrenciId) {
+    const ogrenci = ogrenciler.find(o => o.id == ogrenciId);
+    if (ogrenci) {
+      const [saat, dakika] = baslangicSaati.split(':').map(Number);
+      const toplamDakika = saat * 60 + dakika + parseInt(ogrenci.dersSuresi);
+      
+      const bitisSaat = Math.floor(toplamDakika / 60);
+      const bitisDakika = toplamDakika % 60;
+      
+      const bitisStr = `${bitisSaat.toString().padStart(2, '0')}:${bitisDakika.toString().padStart(2, '0')}`;
+      
+      document.getElementById("baslangicGoster").textContent = baslangicSaati;
+      document.getElementById("bitisGoster").textContent = bitisStr;
+      document.getElementById("toplamSure").textContent = ogrenci.dersSuresi;
+      
+      // Çakışma kontrolü
+      kontrolCakisma(seciliGun, baslangicSaati, ogrenci.dersSuresi);
+    }
+  } else {
+    document.getElementById("baslangicGoster").textContent = "--:--";
+    document.getElementById("bitisGoster").textContent = "--:--";
+    document.getElementById("toplamSure").textContent = "0";
+  }
+}
+
+// Modal için saat hesapla
+function modalSaatHesapla() {
+  const baslangic = document.getElementById("modalBaslangic").value;
+  const ogrenciId = document.getElementById("modalOgrenci").value;
+  
+  if (baslangic && ogrenciId) {
+    const ogrenci = ogrenciler.find(o => o.id == ogrenciId);
+    if (ogrenci) {
+      const [saat, dakika] = baslangic.split(':').map(Number);
+      const toplamDakika = saat * 60 + dakika + parseInt(ogrenci.dersSuresi);
+      
+      const bitisSaat = Math.floor(toplamDakika / 60);
+      const bitisDakika = toplamDakika % 60;
+      
+      const bitisStr = `${bitisSaat.toString().padStart(2, '0')}:${bitisDakika.toString().padStart(2, '0')}`;
+      document.getElementById("modalBitis").textContent = bitisStr;
+      
+      // Çakışma kontrolü
+      const gun = document.getElementById("modalGun").value;
+      kontrolCakismaModal(gun, baslangic, ogrenci.dersSuresi, duzenlenenDers?.id);
+    }
+  }
+}
+
+// Çakışma kontrolü (ana ekran için)
+function kontrolCakisma(gun, baslangic, sure) {
+  const cakismaUyari = document.getElementById("cakismaUyari");
+  cakismaUyari.style.display = 'none';
+  
+  if (!dersProgrami[gun]) return false;
+  
+  const baslangicDakika = saatToDakika(baslangic);
+  const bitisDakika = baslangicDakika + parseInt(sure);
+  
+  for (const ders of dersProgrami[gun]) {
+    const dersBaslangic = saatToDakika(ders.baslangic);
+    const dersBitis = dersBaslangic + ders.sureDk;
+    
+    const cakisma = (baslangicDakika >= dersBaslangic && baslangicDakika < dersBitis) ||
+                   (bitisDakika > dersBaslangic && bitisDakika <= dersBitis) ||
+                   (baslangicDakika <= dersBaslangic && bitisDakika >= dersBitis);
+    
+    if (cakisma) {
+      cakismaUyari.style.display = 'block';
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+// Çakışma kontrolü (modal için)
+function kontrolCakismaModal(gun, baslangic, sure, haricDersId = null) {
+  const uyari = document.getElementById("modalUyari");
+  uyari.style.display = 'none';
+  
+  if (!dersProgrami[gun]) return false;
+  
+  const baslangicDakika = saatToDakika(baslangic);
+  const bitisDakika = baslangicDakika + parseInt(sure);
+  
+  for (const ders of dersProgrami[gun]) {
+    // Kendi dersini hariç tut
+    if (ders.id === haricDersId) continue;
+    
+    const dersBaslangic = saatToDakika(ders.baslangic);
+    const dersBitis = dersBaslangic + ders.sureDk;
+    
+    const cakisma = (baslangicDakika >= dersBaslangic && baslangicDakika < dersBitis) ||
+                   (bitisDakika > dersBaslangic && bitisDakika <= dersBitis) ||
+                   (baslangicDakika <= dersBaslangic && bitisDakika >= dersBitis);
+    
+    if (cakisma) {
+      uyari.textContent = `⚠️ Bu saatte ${ders.tur === 'mola' ? 'mola' : ders.ogrenci} var!`;
+      uyari.style.display = 'block';
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+// Saati dakikaya çevir
+function saatToDakika(saat) {
+  const [s, d] = saat.split(':').map(Number);
+  return s * 60 + d;
+}
+
+// Ders ekleme
+function dersEkle() {
+  const ogrenciId = document.getElementById("ogrenciSec").value;
+  const baslangic = document.getElementById("baslangicSaati").value;
+  const basariMesaji = document.getElementById("basariMesaji");
+  const cakismaUyari = document.getElementById("cakismaUyari");
+  
+  // Önceki mesajları temizle
+  basariMesaji.style.display = "none";
+  cakismaUyari.style.display = "none";
+  
+  if (!ogrenciId) {
+    alert("Lütfen bir öğrenci seçin!");
+    return;
+  }
+  
+  if (!baslangic) {
+    alert("Lütfen başlangıç saati seçin!");
+    return;
+  }
+  
+  const ogrenci = ogrenciler.find(o => o.id == ogrenciId);
+  if (!ogrenci) {
+    return;
+  }
+  
+  // Öğrenci kontrolü - her öğrenciyi sadece bir kez ekleyebilir
+  if (ogrenciHaftadaVar(ogrenciId)) {
+    document.getElementById("ogrenciUyari").style.display = "block";
+    return;
+  }
+  
+  // Çakışma kontrolü
+  const cakisma = kontrolCakisma(seciliGun, baslangic, ogrenci.dersSuresi);
+  
+  if (!dersProgrami[seciliGun]) {
+    dersProgrami[seciliGun] = [];
+  }
+  
+  const ders = {
+    id: Date.now(),
+    tur: "ders",
+    ogrenci: `${ogrenci.isim} ${ogrenci.soyisim}`,
+    ogrenciId: ogrenci.id,
+    calgi: ogrenci.calgi,
+    baslangic: baslangic,
+    sure: ogrenci.dersSuresi,
+    sureDk: parseInt(ogrenci.dersSuresi),
+    bitis: hesaplaBitisSaat(baslangic, ogrenci.dersSuresi),
+    cakisma: cakisma
+  };
+  
+  dersProgrami[seciliGun].push(ders);
+  dersProgrami[seciliGun].sort((a, b) => a.baslangic.localeCompare(b.baslangic));
+  
+  localStorage.setItem("dersProgrami", JSON.stringify(dersProgrami));
+  dersPrograminiGoster();
+  
+  // Başarı mesajını göster
+  basariMesaji.style.display = "block";
+  
+  // Formu temizle
+  document.getElementById("baslangicSaati").value = "";
+  document.getElementById("ogrenciSec").value = "";
+  document.getElementById("ogrenciBilgi").style.display = "none";
+  document.getElementById("ogrenciUyari").style.display = "none";
+  document.getElementById("baslangicGoster").textContent = "--:--";
+  document.getElementById("bitisGoster").textContent = "--:--";
+  document.getElementById("toplamSure").textContent = "0";
+  
+  // 3 saniye sonra başarı mesajını gizle
+  setTimeout(() => {
+    basariMesaji.style.display = "none";
+  }, 3000);
+}
+
+// Mola ekleme (basitleştirilmiş versiyon)
+function molaEkle(sure) {
+  const baslangic = document.getElementById("baslangicSaati").value;
+  if (!baslangic) {
+    alert("Lütfen başlangıç saati seçin!");
+    return;
+  }
+  
+  // Çakışma kontrolü
+  const cakisma = kontrolCakisma(seciliGun, baslangic, sure);
+  
+  if (!dersProgrami[seciliGun]) {
+    dersProgrami[seciliGun] = [];
+  }
+  
+  const mola = {
+    id: Date.now(),
+    tur: "mola",
+    baslangic: baslangic,
+    sure: sure,
+    sureDk: parseInt(sure),
+    bitis: hesaplaBitisSaat(baslangic, sure),
+    aciklama: `${sure} dakika mola`,
+    cakisma: cakisma
+  };
+  
+  dersProgrami[seciliGun].push(mola);
+  dersProgrami[seciliGun].sort((a, b) => a.baslangic.localeCompare(b.baslangic));
+  
+  localStorage.setItem("dersProgrami", JSON.stringify(dersProgrami));
+  dersPrograminiGoster();
+  
+  // Başarı mesajını göster
+  const basariMesaji = document.getElementById("basariMesaji");
+  basariMesaji.textContent = `${sure} dakika mola başarıyla eklendi!`;
+  basariMesaji.style.display = "block";
+  
+  // 3 saniye sonra başarı mesajını gizle
+  setTimeout(() => {
+    basariMesaji.style.display = "none";
+  }, 3000);
+}
+
+// Bitiş saatini hesapla
+function hesaplaBitisSaat(baslangic, sure) {
+  const [saat, dakika] = baslangic.split(':').map(Number);
+  const toplamDakika = saat * 60 + dakika + parseInt(sure);
+  
+  const bitisSaat = Math.floor(toplamDakika / 60);
+  const bitisDakika = toplamDakika % 60;
+  
+  return `${bitisSaat.toString().padStart(2, '0')}:${bitisDakika.toString().padStart(2, '0')}`;
+}
+
+// Ders programını göster
+function dersPrograminiGoster() {
+  const grid = document.getElementById("dersProgramiGrid");
+  grid.innerHTML = "";
+  
+  const gunler = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+  
+  gunler.forEach(gun => {
+    const gunKarti = document.createElement("div");
+    gunKarti.className = "gun-karti";
+    
+    const gunBaslik = document.createElement("div");
+    gunBaslik.className = "gun-baslik";
+    gunBaslik.textContent = gun;
+    
+    const dersListesi = document.createElement("div");
+    dersListesi.className = "ders-listesi";
+    dersListesi.id = `dersListesi-${gun}`;
+    
+    gunKarti.appendChild(gunBaslik);
+    gunKarti.appendChild(dersListesi);
+    grid.appendChild(gunKarti);
+    
+    if (dersProgrami[gun] && dersProgrami[gun].length > 0) {
+      dersProgrami[gun].forEach(ders => {
+        const dersItem = document.createElement("div");
+        dersItem.className = `ders-item ${ders.tur === 'mola' ? 'mola' : ''} ${ders.cakisma ? 'cakisma' : ''}`;
+        dersItem.onclick = () => dersDuzenle(ders, gun);
+        
+        const dersHeader = document.createElement("div");
+        dersHeader.className = "ders-header";
+        
+        const dersSaat = document.createElement("div");
+        dersSaat.className = "ders-saat";
+        dersSaat.textContent = `${ders.baslangic} - ${ders.bitis}`;
+        
+        const dersSure = document.createElement("div");
+        dersSure.className = "ders-sure";
+        dersSure.textContent = `${ders.sure} dk`;
+        
+        dersHeader.appendChild(dersSaat);
+        dersHeader.appendChild(dersSure);
+        
+        const dersOgrenci = document.createElement("div");
+        dersOgrenci.className = "ders-ogrenci";
+        
+        if (ders.tur === 'mola') {
+          dersOgrenci.innerHTML = `<i class="fas fa-coffee"></i> ${ders.aciklama}`;
+        } else {
+          dersOgrenci.textContent = ders.ogrenci;
+        }
+        
+        const dersDetay = document.createElement("div");
+        dersDetay.className = "ders-detay";
+        
+        if (ders.tur === 'ders') {
+          dersDetay.textContent = ders.calgi;
+        } else {
+          dersDetay.textContent = "Mola";
+        }
+        
+        dersItem.appendChild(dersHeader);
+        dersItem.appendChild(dersOgrenci);
+        dersItem.appendChild(dersDetay);
+        
+        if (ders.cakisma) {
+          const uyari = document.createElement("div");
+          uyari.className = "ders-uyari";
+          uyari.textContent = "⚠️ Çakışma var!";
+          dersItem.appendChild(uyari);
+        }
+        
+        dersListesi.appendChild(dersItem);
+      });
+    } else {
+      dersListesi.innerHTML = `
+        <div class="ders-bos">
+          <i class="fas fa-calendar-plus"></i><br>
+          Bu gün için henüz ders eklenmemiş
+        </div>
+      `;
+    }
+  });
+}
+
+// Ders düzenleme modalını aç
+function dersDuzenle(ders, gun) {
+  duzenlenenDers = ders;
+  duzenlenenDers.gun = gun;
+  
+  document.getElementById("modalGun").value = gun;
+  document.getElementById("modalOgrenci").value = ders.tur === 'ders' ? ders.ogrenciId : "";
+  document.getElementById("modalBaslangic").value = ders.baslangic;
+  
+  // Modal için saat hesapla
+  modalSaatHesapla();
+  
+  // Çakışma uyarısını gizle
+  document.getElementById("modalUyari").style.display = "none";
+  
+  document.getElementById("dersModal").classList.add("show");
+}
+
+// Modalı kapat
+function modalKapat() {
+  document.getElementById("dersModal").classList.remove("show");
+  duzenlenenDers = null;
+}
+
+// Ders güncelle
+function dersGuncelle() {
+  if (!duzenlenenDers) return;
+  
+  const yeniGun = document.getElementById("modalGun").value;
+  const yeniOgrenciId = document.getElementById("modalOgrenci").value;
+  const yeniBaslangic = document.getElementById("modalBaslangic").value;
+  
+  if (!yeniBaslangic) {
+    alert("Lütfen başlangıç saati seçin!");
+    return;
+  }
+  
+  // Ders için öğrenci kontrolü
+  if (duzenlenenDers.tur === 'ders' && !yeniOgrenciId) {
+    alert("Lütfen bir öğrenci seçin!");
+    return;
+  }
+  
+  // Çakışma kontrolü
+  if (duzenlenenDers.tur === 'ders') {
+    const ogrenci = ogrenciler.find(o => o.id == yeniOgrenciId);
+    if (ogrenci) {
+      const cakisma = kontrolCakismaModal(yeniGun, yeniBaslangic, ogrenci.dersSuresi, duzenlenenDers.id);
+      if (cakisma) return;
+    }
+  } else {
+    const cakisma = kontrolCakismaModal(yeniGun, yeniBaslangic, duzenlenenDers.sureDk, duzenlenenDers.id);
+    if (cakisma) return;
+  }
+  
+  // Eski günden dersi kaldır
+  const eskiGunIndex = dersProgrami[duzenlenenDers.gun].findIndex(d => d.id === duzenlenenDers.id);
+  if (eskiGunIndex !== -1) {
+    dersProgrami[duzenlenenDers.gun].splice(eskiGunIndex, 1);
+  }
+  
+  // Yeni güne dersi ekle
+  if (!dersProgrami[yeniGun]) {
+    dersProgrami[yeniGun] = [];
+  }
+  
+  if (duzenlenenDers.tur === 'ders') {
+    const ogrenci = ogrenciler.find(o => o.id == yeniOgrenciId);
+    if (ogrenci) {
+      duzenlenenDers.ogrenci = `${ogrenci.isim} ${ogrenci.soyisim}`;
+      duzenlenenDers.ogrenciId = ogrenci.id;
+      duzenlenenDers.calgi = ogrenci.calgi;
+      duzenlenenDers.sure = ogrenci.dersSuresi;
+      duzenlenenDers.sureDk = parseInt(ogrenci.dersSuresi);
+    }
+  }
+  
+  duzenlenenDers.baslangic = yeniBaslangic;
+  duzenlenenDers.bitis = hesaplaBitisSaat(yeniBaslangic, duzenlenenDers.sureDk);
+  duzenlenenDers.gun = yeniGun;
+  
+  dersProgrami[yeniGun].push(duzenlenenDers);
+  dersProgrami[yeniGun].sort((a, b) => a.baslangic.localeCompare(b.baslangic));
+  
+  localStorage.setItem("dersProgrami", JSON.stringify(dersProgrami));
+  dersPrograminiGoster();
+  modalKapat();
+}
+
+// Ders sil
+function dersSil() {
+  if (!duzenlenenDers) return;
+  
+  if (confirm("Bu dersi silmek istediğinizden emin misiniz?")) {
+    const gunIndex = dersProgrami[duzenlenenDers.gun].findIndex(d => d.id === duzenlenenDers.id);
+    if (gunIndex !== -1) {
+      dersProgrami[duzenlenenDers.gun].splice(gunIndex, 1);
+      localStorage.setItem("dersProgrami", JSON.stringify(dersProgrami));
+      dersPrograminiGoster();
+      modalKapat();
+    }
+  }
+}
+
+// Sayfa yüklendiğinde
+document.addEventListener("DOMContentLoaded", function() {
+  ogrenciListesiniDoldur();
+  dersPrograminiGoster();
+  
+  // Gün seçimi değiştiğinde
+  document.getElementById("gunSec").addEventListener("change", function() {
+    seciliGun = this.value;
+    saatHesapla();
+  });
+  
+  // Öğrenci seçimi değiştiğinde
+  document.getElementById("ogrenciSec").addEventListener("change", ogrenciSecildi);
+  
+  // Saat değiştiğinde
+  document.getElementById("baslangicSaati").addEventListener("change", saatHesapla);
+  
+  // Modal için saat değişikliklerini dinle
+  document.getElementById("modalBaslangic").addEventListener("change", modalSaatHesapla);
+  document.getElementById("modalOgrenci").addEventListener("change", modalSaatHesapla);
+});
+</script>
+<!-- iPhone Takvime Aktarma Butonu -->
+<div style="text-align:center; margin-top:40px;">
+  <button class="btn btn-success" onclick="takvimeAktar()">
+    <i class="fas fa-calendar-plus"></i> Takvime Aktar (iPhone)
+  </button>
+</div>
+
+<script>
+function takvimeAktar() {
+  const gunler = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+  const program = JSON.parse(localStorage.getItem("dersProgrami")) || {};
+
+  const simdi = new Date();
+  const yil = simdi.getFullYear();
+  const ay = simdi.getMonth();
+  const ayBaslangic = new Date(yil, ay, 1);
+  const ayBitis = new Date(yil, ay + 1, 0);
+
+  let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nPRODID:-//HamzaDersProgrami//TR\n";
+
+  for (let d = new Date(ayBaslangic); d <= ayBitis; d.setDate(d.getDate() + 1)) {
+    const gunIndex = (d.getDay() + 6) % 7; // Pazartesi = 0, Pazar = 6
+    const gunAdi = gunler[gunIndex];
+    
+    if (program[gunAdi]) {
+      program[gunAdi].forEach(ders => {
+        if (ders.tur === "ders") {
+          const [saat, dk] = ders.baslangic.split(":").map(Number);
+          const [bitSaat, bitDk] = ders.bitis.split(":").map(Number);
+
+          const start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), saat, dk, 0);
+          const end = new Date(d.getFullYear(), d.getMonth(), d.getDate(), bitSaat, bitDk, 0);
+
+          const dtStart = start.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+          const dtEnd = end.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+
+          ics += `BEGIN:VEVENT\nUID:${ders.id}-${d.getMonth() + 1}${d.getDate()}@hamza.tr\nSUMMARY:${ders.ogrenci} (${ders.calgi})\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nDESCRIPTION:${gunAdi} günü ${ders.baslangic}-${ders.bitis} arası ders.\nEND:VEVENT\n`;
+        }
+      });
+    }
+  }
+
+  ics += "END:VCALENDAR";
+
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `DersProgrami.ics`; // Her zaman aynı dosya adı
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+}
+</script>
+
+
+</body>
+</html>
